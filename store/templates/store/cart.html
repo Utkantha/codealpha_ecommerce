@@ -1,0 +1,79 @@
+{% extends 'store/base.html' %}
+{% load static %}
+{% block content %}
+<div class="container mt-4">
+<div class="row">
+    <!-- Rest of cart.html content remains unchanged -->
+    <div class="col-lg-12">
+        <div class="box-element mb-4">
+            <a class="btn btn-outline-dark" href="{% url 'store' %}">&#x2190; Continue Shopping</a>
+            <br>
+            <br>
+            <table class="table">
+                <tr>
+                    <th><h5>Items: <strong>{{ order.get_cart_items }}</strong></h5></th>
+                    <th><h5>Total:<strong> ${{ order.get_cart_total|floatformat:2 }}</strong></h5></th>
+                    <th>
+                        <a style="float:right; margin:5px;" class="btn btn-success" href="{% url 'checkout' %}">Checkout</a>
+                    </th>
+                </tr>
+            </table>
+        </div>
+
+        <div class="box-element">
+            <div class="row pb-3 pt-2 border-bottom">
+                <div style="flex:2"></div>
+                <div style="flex:2"><strong>Item</strong></div>
+                <div style="flex:1"><strong>Price</strong></div>
+                <div style="flex:1"><strong>Quantity</strong></div>
+                <div style="flex:1"><strong>Total</strong></div>
+            </div>
+            {% for item in items %}
+            <div class="row align-items-center py-2 border-bottom">
+                <div style="flex:2"><img class="img-fluid rounded" src="{{ item.product.imageURL|default:'https://via.placeholder.com/100x100.png?text=No+Image' }}" style="max-width: 80px;"></div>
+                <div style="flex:2"><p>{{ item.product.name }}</p></div>
+                <div style="flex:1"><p>${{ item.product.price|floatformat:2 }}</p></div>
+                <div style="flex:1">
+                    <p class="quantity">{{ item.quantity }}</p>
+                    <div class="quantity">
+                        <span data-product="{{ item.product.id }}" data-action="add" class="fs-4 update-cart" style="cursor: pointer;">&#x25B2;</span>
+                        <span data-product="{{ item.product.id }}" data-action="remove" class="fs-4 update-cart" style="cursor: pointer;">&#x25BC;</span>
+                    </div>
+                </div>
+                <div style="flex:1"><p>${{ item.get_total|floatformat:2 }}</p></div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+</div>
+
+<script>
+    var updateBtns = document.getElementsByClassName('update-cart')
+    for(var i = 0; i < updateBtns.length; i++){
+        updateBtns[i].addEventListener('click', function(){
+            var productId = this.dataset.product
+            var action = this.dataset.action
+            if(user === 'AnonymousUser'){
+                alert("You need to login to add items to cart")
+            }else{
+                updateUserOrder(productId, action)
+            }
+        })
+    }
+
+    function updateUserOrder(productId, action){
+        var url = '/update_item/'
+        fetch(url, {
+            method:'POST',
+            headers:{
+                'Content-Type':'application/json',
+                'X-CSRFToken':csrftoken,
+            },
+            body:JSON.stringify({'productId':productId, 'action':action})
+        })
+        .then((response) => response.json())
+        .then((data) => location.reload())
+    }
+</script>
+{% endblock content %}

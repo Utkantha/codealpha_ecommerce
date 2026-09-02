@@ -1,0 +1,60 @@
+{% extends 'store/base.html' %}
+{% load static %}
+{% block content %}
+<div class="container mt-4">
+<div class="row">
+    <div class="col-lg-6">
+        <div class="box-element text-center">
+            <img class="img-fluid" src="{{ product.imageURL|default:'https://via.placeholder.com/500x500.png?text=No+Image' }}" alt="{{ product.name }}">
+        </div>
+    </div>
+    <div class="col-lg-6">
+        <div class="box-element">
+            <h3>{{ product.name }}</h3>
+            <hr>
+            <h4>${{ product.price|floatformat:2 }}</h4>
+            <p>{{ product.description|default:"No description available." }}</p>
+            <br>
+            <div class="d-flex flex-column mt-3">
+                <button data-product="{{ product.id }}" data-action="add" class="btn mb-2 update-cart-detail" style="background-color: #ffd814; border-color: #fcd200; border-radius: 20px;">Add to Cart</button>
+                <a class="btn mb-2" href="{% url 'checkout' %}" style="background-color: #ffa41c; border-color: #ff8f00; border-radius: 20px;">Buy Now</a>
+                <a class="btn btn-outline-secondary" style="border-radius: 20px;" href="{% url 'store' %}">Continue Shopping</a>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+<script>
+    var updateBtnsDetail = document.getElementsByClassName('update-cart-detail')
+
+    for(var i = 0; i < updateBtnsDetail.length; i++){
+        updateBtnsDetail[i].addEventListener('click', function(){
+            var productId = this.dataset.product
+            var action = this.dataset.action
+            if(user === 'AnonymousUser'){
+                alert("You need to login to add items to cart")
+            }else{
+                updateUserOrder(productId, action)
+            }
+        })
+    }
+
+    function updateUserOrder(productId, action){
+        var url = '/update_item/'
+        fetch(url, {
+            method:'POST',
+            headers:{
+                'Content-Type':'application/json',
+                'X-CSRFToken':csrftoken,
+            },
+            body:JSON.stringify({'productId':productId, 'action':action})
+        })
+        .then((response) => {
+            return response.json()
+        })
+        .then((data) => {
+            location.reload()
+        })
+    }
+</script>
+{% endblock content %}
