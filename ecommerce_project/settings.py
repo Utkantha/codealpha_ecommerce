@@ -74,10 +74,17 @@ WSGI_APPLICATION = 'ecommerce_project.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
+import os
+import shutil
+
+tmp_db = '/tmp/db.sqlite3'
+if not os.path.exists(tmp_db) and (BASE_DIR / 'db.sqlite3').exists():
+    shutil.copy2(BASE_DIR / 'db.sqlite3', tmp_db)
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'NAME': tmp_db if os.path.exists('/tmp') else BASE_DIR / 'db.sqlite3',
     }
 }
 
