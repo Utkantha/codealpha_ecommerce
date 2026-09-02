@@ -77,14 +77,20 @@ WSGI_APPLICATION = 'ecommerce_project.wsgi.application'
 import os
 import shutil
 
-tmp_db = '/tmp/db.sqlite3'
-if not os.path.exists(tmp_db) and (BASE_DIR / 'db.sqlite3').exists():
-    shutil.copy2(BASE_DIR / 'db.sqlite3', tmp_db)
+tmp_dir = '/tmp'
+tmp_db = os.path.join(tmp_dir, 'db.sqlite3')
+
+if os.path.exists(tmp_dir):
+    if not os.path.exists(tmp_db) and (BASE_DIR / 'db.sqlite3').exists():
+        shutil.copy2(BASE_DIR / 'db.sqlite3', tmp_db)
+    db_name = tmp_db
+else:
+    db_name = BASE_DIR / 'db.sqlite3'
 
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': tmp_db if os.path.exists('/tmp') else BASE_DIR / 'db.sqlite3',
+        'NAME': db_name,
     }
 }
 

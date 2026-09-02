@@ -15,12 +15,15 @@ class Product(models.Model):
     price = models.DecimalField(max_digits=7, decimal_places=2)
     digital = models.BooleanField(default=False, null=True, blank=False)
     image = models.ImageField(null=True, blank=True)
+    image_link = models.CharField(max_length=1000, null=True, blank=True)
 
     def __str__(self):
         return self.name
 
     @property
     def imageURL(self):
+        if self.image_link:
+            return self.image_link
         try:
             url = self.image.url
         except:

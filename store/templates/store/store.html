@@ -34,12 +34,24 @@
     <div class="carousel-inner h-100">
         <div class="carousel-item active h-100">
             <img src="https://m.media-amazon.com/images/I/61lwJy4B8PL._SX3000_.jpg" class="d-block w-100 carousel-img" alt="Banner 1">
+            <div class="carousel-caption d-none d-md-block" style="bottom: 50%; text-shadow: 2px 2px 4px rgba(0,0,0,0.8);">
+                <h1 style="font-weight: 800; font-size: 3.5rem;">Great Indian Festival Sale</h1>
+                <p style="font-size: 1.8rem; color: #ffeb3b; font-weight: bold;">60-70% OFF on Top Brands!</p>
+            </div>
         </div>
         <div class="carousel-item h-100">
             <img src="https://m.media-amazon.com/images/I/71Ie3JXGfVL._SX3000_.jpg" class="d-block w-100 carousel-img" alt="Banner 2">
+            <div class="carousel-caption d-none d-md-block" style="bottom: 50%; text-shadow: 2px 2px 4px rgba(0,0,0,0.8);">
+                <h1 style="font-weight: 800; font-size: 3.5rem;">Great Indian Festival Sale</h1>
+                <p style="font-size: 1.8rem; color: #ffeb3b; font-weight: bold;">Up to 70% OFF Laptops & Accessories</p>
+            </div>
         </div>
         <div class="carousel-item h-100">
             <img src="https://m.media-amazon.com/images/I/71U-Q+N7PXL._SX3000_.jpg" class="d-block w-100 carousel-img" alt="Banner 3">
+            <div class="carousel-caption d-none d-md-block" style="bottom: 50%; text-shadow: 2px 2px 4px rgba(0,0,0,0.8);">
+                <h1 style="font-weight: 800; font-size: 3.5rem;">Great Indian Festival Sale</h1>
+                <p style="font-size: 1.8rem; color: #ffeb3b; font-weight: bold;">Unbeatable Deals on Smart Devices</p>
+            </div>
         </div>
     </div>
     <button class="carousel-control-prev" type="button" data-bs-target="#amazonHeroCarousel" data-bs-slide="prev" style="width: 5%; z-index: 5; top: 0; bottom: 50%;">
@@ -53,12 +65,14 @@
     <div class="carousel-gradient"></div>
 </div>
 
-<div class="container-fluid px-4" style="margin-top: -300px; position: relative; z-index: 10;">
+<div class="container-fluid px-4" style="margin-top: -150px; position: relative; z-index: 10;">
     <div class="row px-2">
         {% for product in products %}
         <div class="col-6 col-md-4 col-lg-3 col-xl-2 mb-4 px-2">
             <div class="card h-100 border-0 rounded-0" style="box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
-                <div style="height: 200px; display: flex; justify-content: center; align-items: center; padding: 10px; background-color: #f8f8f8;">
+                <div style="height: 200px; display: flex; justify-content: center; align-items: center; padding: 10px; background-color: #f8f8f8; position: relative;">
+                    <span class="badge position-absolute top-0 start-0 m-2" style="background-color: #cc0c39; font-size: 12px; font-weight: bold; padding: 5px 8px; border-radius: 2px;">30% off</span>
+                    <span class="position-absolute top-0 start-0 m-2" style="margin-top: 30px !important; color: #cc0c39; font-size: 12px; font-weight: bold;">Limited time deal</span>
                     <img class="img-fluid" src="{{ product.imageURL|default:'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=300&q=80' }}" alt="{{ product.name }}" style="max-height: 100%; max-width: 100%; object-fit: contain;">
                 </div>
                 <div class="card-body d-flex flex-column p-2">
